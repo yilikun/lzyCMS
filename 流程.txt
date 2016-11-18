@@ -1,0 +1,95 @@
+1.首先通过express生成器生成一个简单的项目
+    目前的项目是这样的
+         ----   bin  //检测和启动
+         ----   node_modules //第三方的插件
+         ----   public //我的静态资源
+         ----   routes //我的路由
+         ----   views //我的模板文件
+                app.js //启动文件
+                package.json  json文件
+
+2.我想让我的项目能和angular一起用，这个时候我需要下载下jquery和angular两个插件
+
+npm install jquery --save
+npm install angular --save
+最后我把jquery和angular的核心的文件放到public里面去.
+
+3.可能里面会用到一些UI框架，这里可以创建一个文件夹plugin,将bootstrap放到里面去.
+
+npm install bootstrap --save   =>  plugin文件夹
+
+4.创建models文件，所有的关于数据库的操作我们都需要放在里面
+
+5.创建settings.js文件，将系统的相关配置写在settings里面
+
+最终它的项目结构变成了:
+             ----   bin  //检测和启动
+             ----   models //数据库操作类
+                    ----  db //整合前台和后台操作类的封装函数.
+                          ----- webFun   所有前台操作的封装函数
+                          ----- adminFun 所有后台操作的封装函数
+             ----   node_modules //第三方的插件
+             ----   public //我的静态资源
+                    ----  image //常用的图片
+                    ----  javascript //常用的JS文件
+                    ----  plugins //常用的插件文件
+                    ----  upload //下载的文件
+             ----   routes //我的路由
+             ----   views //我的模板文件
+                    ----  manage //后台模板
+                    ----  web //前台模板
+                    app.js //启动文件
+                    package.json  json文件
+                    setting.js  系统配置文件
+-----------------------------------------------------------------------------------------------------------
+
+1.打开routes文件里面的index.js,我们开始设计我们的首页路由访问
+
+router.get('/',function(req,res,next){
+    //这里，应该让用户能够顺利的访问到首页的静态页面
+    //同时，将数据展示在首页上.
+    res.render('index');
+})
+
+2.设计首页的加载CSS和JS文件(默认都会被放在public文件夹里面了) 这个时候可以把小图标放到public里面去
+  <script src="javascripts/jquery.js"></script>
+  <script src="javascripts/angular.js"></script>
+  <script src="plugin/bootstrap/js/bootstrap.js"></script>
+  <link href="plugin/bootstrap/css/bootstrap.css">
+
+3.设计首页的静态样式
+    ----- public 首页需要的小模块都放在这里
+          ------ body 正文内容
+          ------ cateList 分类列表
+          ------ footer 尾部
+          ------ friendLink 友情链接
+          ------ header 头部
+          ------ hotNewsList 热门文章推荐
+          ------ itemList 文章列表
+          ------ pagination 分页
+          ------ search 搜索
+          ------ tagsList 标签
+    ----- index  首页
+
+    <%- include public/header %>
+    <%- include public/body %>
+            <% include itemList %>
+            <% include pagination %>
+            <% include search %>
+            <% include cateList %>
+            <% include hotNewsList %>
+            <% include tagsList %>
+            <% include friendLink %>
+    <%- include public/footer %>
+
+    页面可以根据自己的实际情况来设计，并不需要按照一定的规范设计，尽量的简单
+
+4.考虑将设计数据库了
+
+
+
+
+
+
+
+
