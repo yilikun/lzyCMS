@@ -86,6 +86,26 @@ router.get('/',function(req,res,next){
 
 4.考虑将设计数据库了
 
+在根目录下创建settings配置文件,创建robots.txt，搜索引擎禁止某些页面的收录
+
+在models里面创建一个db文件夹，新建一个settings的配置文件，保存数据库信息和邮件信息
+
+安装加密模块，安装mongose模块,安装shortid模块
+npm install crypto --save
+npm install mongoose --save
+npm install short-id --save
+
+创建数据库操作基类db.js
+
+
+
+
+
+
+
+
+
+
 
 
 
