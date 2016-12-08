@@ -2,7 +2,7 @@
  * Created by hama on 2016/11/18.
  */
 module.exports = {
-    URL:'mongodb://localhost:27017/lzycms',
+    URL:'mongodb://localhost:27017/lzy',
     DB:'lzy',
     HOST:'',
     PORT:27017,

@@ -25,7 +25,7 @@ npm install bootstrap --save   =>  plugin文件夹
 最终它的项目结构变成了:
              ----   bin  //检测和启动
              ----   models //数据库操作类
-                    ----  db //整合前台和后台操作类的封装函数.
+                          ----  db //整合前台和后台操作类的封装函数.
                           ----- webFun   所有前台操作的封装函数
                           ----- adminFun 所有后台操作的封装函数
              ----   node_modules //第三方的插件
@@ -96,6 +96,31 @@ npm install mongoose --save
 npm install short-id --save
 
 创建数据库操作基类db.js
+  ----------  通用的文件操作类DBSET
+              ------  del 删除
+              ------  findAll 查询所有
+              ------  findOne 查询一条
+              ------  updateOneByID 更新一条数据
+              ------  addOne  添加一条
+              ------  pagination 分页
+              ------  getPaginationResult  搜索+分页
+              ------  getDatasByParam  不带分页的搜索结果
+              ------  getKeyArrByTokenId
+              ------  getCount  获取数量
+              ------  encrypt  加密
+              ------  decrypt  解密
+
+设计数据库mongose
+
+-------------- models
+               ------ User.js  用户信息表
+               ------ Artcile.js 文章表
+               ------ Category.js 分类表
+               ------ Tags.js 标签表
+               ------ Files.js 文件表
+               ------ Message.js 留言表
+               ------ AdminGroup.js 后台用户组表
+               ------ AdminUser.js 后台用户表
 
 
 
