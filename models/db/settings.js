@@ -2,6 +2,7 @@
  * Created by hama on 2016/11/18.
  */
 module.exports = {
+    session_secret:'lzyCMS_secret',
     URL:'mongodb://localhost:27017/lzy',
     DB:'lzy',
     HOST:'',

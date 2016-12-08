@@ -10,7 +10,8 @@ var crypto = require('crypto');
 //引入short-id模块
 var shortid = require('short-id');
 //引入数据库配置文件
-var settings = require('./db/settings')
+var mongoose = require('mongoose');
+var settings = require('./db/settings');
 //引入mongoose配置文件
 //感觉这里不太需要
 //链接数据库开始

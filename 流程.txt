@@ -121,6 +121,24 @@ npm install short-id --save
                ------ Message.js 留言表
                ------ AdminGroup.js 后台用户组表
                ------ AdminUser.js 后台用户表
+               ------ Notify.js  系统消息
+               ------ UserNotify.js  用户消息
+
+
+1、首页设计登录和注册功能
+npm install express-session session功能
+npm install connect-redis 支持redis
+npm install socket.io 支持websockt
+npm install express-partials 模板引擎
+npm install validator --save 安装验证
+npm install moment --save 时间格式化
+npm install nodemailer --save 发送邮件
+
+2、修改启动文件，开启各项功能
+
+
+
+
 
 
 
