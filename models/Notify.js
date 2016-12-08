@@ -1,3 +1,6 @@
+/**
+ * Created by hama on 2016/12/8.
+ */
 var mongoose = require('mongoose');
 var shortid = require('shortid');
 var Schema = mongoose.Schema;

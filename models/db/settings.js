@@ -3,6 +3,8 @@
  */
 module.exports = {
     session_secret:'lzyCMS_secret',
+    auth_cookie_name: 'lzyCMS',
+    encrypt_key:'lzy',
     URL:'mongodb://localhost:27017/lzy',
     DB:'lzy',
     HOST:'',
@@ -16,5 +18,13 @@ module.exports = {
     redis_db:0,
     //邮件设置
     site_email:'anyanglizhiyuan@163.com',
-    site_email_psd:'lizhi123123'
+    site_email_psd:'lizhi123123',
+    email_findPsd : 'findPsd',
+    email_reg_active : 'reg_active',
+    email_notice_contentMsg : 'notice_contentMsg',
+    email_notice_contentBug : 'notice_contentBug',
+    email_notice_user_contentMsg : 'notice_user_contentMsg',
+    email_notice_user_reg : 'notice_user_reg',
+    //站点基础信息
+    SITETITLE:'李志远的个人博客',
 }

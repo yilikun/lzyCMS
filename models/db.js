@@ -8,7 +8,7 @@ var url = require('url');
 //引入加密模块
 var crypto = require('crypto');
 //引入short-id模块
-var shortid = require('short-id');
+var shortid = require('shortid');
 //引入数据库配置文件
 var mongoose = require('mongoose');
 var settings = require('./db/settings');

@@ -124,6 +124,7 @@ npm install short-id --save
                ------ Notify.js  系统消息
                ------ UserNotify.js  用户消息
 
+=================================================================================================
 
 1、首页设计登录和注册功能
 npm install express-session session功能
@@ -136,6 +137,18 @@ npm install nodemailer --save 发送邮件
 
 2、修改启动文件，开启各项功能
 
+3、新建util文件，创建公共操作类
+            ----- cache.js redis缓存
+            ----- filter.js
+            ----- minme.js  类型规定
+            ----- randomWord.js 生成随机数
+            ----- redis.js 链接redis
+            ----- system.js 系统常用功能
+            npm install archiver --save
+            npm install iconv-lite --save
+            npm install formidable --save
+
+4、设计注册页面
 
 
 
