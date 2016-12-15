@@ -2,6 +2,7 @@
  * Created by hama on 2016/11/18.
  */
 module.exports = {
+    debug:true,
     session_secret:'lzyCMS_secret',
     auth_cookie_name: 'lzyCMS',
     encrypt_key:'lzy',
@@ -27,4 +28,5 @@ module.exports = {
     email_notice_user_reg : 'notice_user_reg',
     //站点基础信息
     SITETITLE:'李志远的个人博客',
+    SITEDOMAIN : 'http://localhost:3000', // 站点域名
 }

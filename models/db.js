@@ -231,4 +231,4 @@ var DbSet = {
 
 }
 //暴露给全局的使用.
-module.export = DbSet;
+module.exports = DbSet;

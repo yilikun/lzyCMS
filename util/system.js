@@ -50,12 +50,16 @@ var system = {
             emailContent = siteFunc.setBugToAdminEmailTemp(obj);
             toEmail = settings.site_email;
         }else if(key == settings.email_notice_user_reg){
+            //注册的邮件在这里发送.
+            //邮件的标题
             emailSubject = emailTitle = '['+settings.SITETITLE +'] 恭喜您，注册成功！';
+            //邮件的内容
             emailContent = siteFunc.setNoticeToUserRegSuccess(obj);
+            //邮件的地址,注册的人的邮箱.
             toEmail = obj.email;
         }
 
-//                发送邮件
+        //发送邮件的邮箱，必须开启第三方的服务，并且正确填写好服务码
         var transporter = nodemailer.createTransport({
 
             service: '163',
@@ -67,11 +71,11 @@ var system = {
         });
 
         var mailOptions = {
-            from: settings.site_email, // sender address
-            to: toEmail, // list of receivers
-            subject: emailSubject, // Subject line
-            text: emailTitle, // plaintext body
-            html: emailContent // html body
+            from: settings.site_email, // 通过我的邮箱
+            to: toEmail, // 发送给注册用户的邮箱
+            subject: emailSubject, // 邮件的主题
+            text: emailTitle, // 邮件的标题
+            html: emailContent // 邮件的主题内容
         };
 
         transporter.sendMail(mailOptions, function(error, info){
