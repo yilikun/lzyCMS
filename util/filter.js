@@ -13,15 +13,13 @@ function gen_session(user, res) {
 }
 
 exports.gen_session = gen_session;
-
-
 exports.authUser = function (req, res, next) {
+
     if (settings.debug && req.cookies['mock_user']) {
         var mockUser = JSON.parse(req.cookies['mock_user']);
         req.session.user = new UserModel(mockUser);
-         return next();
+        return next();
     }
-
     if (req.session.user) {
         UserNotify.getNoReadNotifyCountByUserId(req.session.user._id,'user',function(err,count){
             req.session.user.msg_count = count;
@@ -30,13 +28,14 @@ exports.authUser = function (req, res, next) {
         })
 
     } else {
+        //第一次登录的时候,根据cookie生成session.
         var auth_token = req.signedCookies[settings.auth_cookie_name];
         if (!auth_token) {
             return next();
         }else{
             var auth = auth_token.split('$$$$');
             var user_id = auth[0];
-
+            //根据cookie中的ID去user表中找用户信息
             User.findOne({'_id' : user_id},function(err,user){
                 if(err){
                     console.log(err)
@@ -52,7 +51,6 @@ exports.authUser = function (req, res, next) {
                     })
                 }
             })
-
         }
     }
 };

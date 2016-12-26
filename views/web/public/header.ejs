@@ -1,10 +1,20 @@
 <header class="clearfix">
     <div class="container">
         <!--登录注册的DIV-->
-        <div class="text-right">
-            <ul class="list-group">
-                <li style="display:inline-block"><a href="/users/login">登录</a></li>
-                <li style="display:inline-block"><a href="/users/reg">注册</a></li>
+        <div class="text-right topNav">
+            <ul>
+                <% if(!logined){ %>
+                <li><a rel="nofollow" href="/users/login">登录</a></li>
+                <li><a rel="nofollow" href="/users/reg">注册</a></li>
+                <% }else{ %>
+
+                <li>您好&nbsp;<a href="/users/userCenter"><%=userInfo.userName %></a>
+                    <%if(userInfo.msg_count && userInfo.msg_count>0){%>
+                    <a href="/users/userMessage"><span class="badge" id="u_notify_num"><%=userInfo.msg_count%></span></a>
+                    <%}%>
+                </li>
+                <li><a rel="nofollow" href="#" id="userLoginOut">退出</a></li>
+                <% } %>
             </ul>
         </div>
         <!--头部导航-->

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title><%= title %></title>
+    <script src="/javascripts/jquery.js"></script>
+    <script src="/javascripts/angular.js"></script>
+    <script src="/plugin/bootstrap/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="/plugin/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body>
+<%- include public/header %>
+<div class="container" ng-app="webApp">
+    <div class="col-md-12">
+        <div class="col-md-4 col-md-offset-4 min-hight" style="margin-top: 50px;">
+            <% include public/login %>
+        </div>
+    </div>
+</div>
+<%- include public/footer %>
+</body>
+</html>

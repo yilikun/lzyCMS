@@ -12,7 +12,7 @@ var UserSchema = new Schema({
         'default':shortid.generate
     },
     name:String,
-    username:String,
+    userName:String,
     password:String,
     email:String,
     qq:Number,

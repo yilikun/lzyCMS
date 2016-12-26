@@ -24,16 +24,23 @@ var settings = require('../models/db/settings');
 var shortid = require('shortid');
 //系统相关操作
 var system = require("../util/system");
+//数据校验
+var filter = require('../util/filter');
 
 
 
 
 var returnUserRouter = function(io){
+    //判断是否登录
+    function isLogined(req){
+        return req.session.logined;
+    }
     //用户注册的页面
     router.get('/reg',function(req,res,next){
-        res.render('web/userReg',{
+         res.render('web/userReg',{
             title:'用户注册',
-            //userInfo:req.session.user
+            logined:req.session.logined,
+            userInfo:req.session.user
         });
     })
     //用户注册的行为
@@ -85,6 +92,46 @@ var returnUserRouter = function(io){
                     });
                 }
             });
+        }
+    })
+    //用户的登录页面
+    router.get('/login',function(req,res,next){
+        if(isLogined(req)){
+              res.redirect('/');
+        }else{
+              res.render('web/userLogin',{
+                title:'用户登录',
+                logined:req.session.logined,
+                userInfo:req.session.user
+            })
+        }
+    })
+    //用户的登录行为
+    router.post('/doLogin',function(req,res,next){
+        var email = req.body.email;
+        var password = req.body.password;
+        var errors;
+        var newPsd = DBSet.encrypt(password,settings.encrypt_key);
+        if(!validator.isEmail(email)){
+            errors = '邮箱格式不正确';
+        }
+        if(!validator.matches(password,/(?!^\\d+$)(?!^[a-zA-Z]+$)(?!^[_#@]+$).{5,}/) || !validator.isLength(password,6,12)){
+            errors = '密码6-12个字符';
+        }
+        if(errors){
+            res.end(errors);
+        }else{
+            //成功之后
+            User.findOne({email:email,password:newPsd},function(err,user){
+                console.log(user);
+                if(user){
+                    //将cookie存入缓存
+                    filter.gen_session(user,res);
+                    res.end('success');
+                }else{
+                    res.end('用户名或者密码错误!');
+                }
+            })
         }
     })
     return router;

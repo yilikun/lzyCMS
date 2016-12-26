@@ -149,6 +149,26 @@ npm install nodemailer --save 发送邮件
             npm install formidable --save
 
 4、设计注册页面
+    router.get('/reg',function(req,res,next){
+            res.render('web/userReg',{
+                title:'用户注册',
+                //userInfo:req.session.user
+            });
+        })
+    注册完成的要点分析:
+        1.首先使用了angularJS完成了注册页面中的前端验证,使用了ng-clock避免了页面的闪动
+        2.创建注册模块，使用$http发送ajax
+        3.完成路由/doReg注册行为,流程:
+            ①完成后端的验证
+            ②发送一份邮件
+            ③发送系统消息给用户
+            ④添加到User表中
+
+5、设计登录页面
+① 使用redis将session放入redis中持久化保存
+② 生成cookie
+③ 通过cookie生成session.
+
 
 
 

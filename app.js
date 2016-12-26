@@ -9,7 +9,7 @@ var session = require('express-session');
 var RedisStore = require('connect-redis')(session);
 var io = require('socket.io')();
 var fs = require('fs');
-//var filter = require('./util/filter');
+
 var moment = require('moment');
 var partials = require('express-partials');
 //站点的配置
@@ -17,8 +17,8 @@ var settings = require('./models/db/settings');
 //路由的加载
 var routes = require('./routes/index');
 var users = require('./routes/users')(io);//用户的登录注册用到了io
-
-
+//位置很重要，要放在路由的后边
+var filter = require('./util/filter');
 var app = express();
 
 // view engine setup
@@ -32,7 +32,19 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser(settings.session_secret));
-//app.use(filter.authUser);
+//设置session
+app.use(session({
+    secret: settings.session_secret,
+    store: new RedisStore({
+        port: settings.redis_port,
+        host: settings.redis_host,
+        pass : settings.redis_psd,
+        ttl: 1800 // 过期时间
+    }),
+    resave: true,
+    saveUninitialized: true
+}));
+app.use(filter.authUser);
 //存储本地信息
 /*app.use(function(req, res, next){
 //    针对注册会员
@@ -46,18 +58,7 @@ app.use(cookieParser(settings.session_secret));
     res.locals.myDomain = req.headers.host;
     next();
 });*/
-//设置session
-app.use(session({
-    secret: settings.session_secret,
-    store: new RedisStore({
-        port: settings.redis_port,
-        host: settings.redis_host,
-        pass : settings.redis_psd,
-        ttl: 1800 // 过期时间
-    }),
-    resave: true,
-    saveUninitialized: true
-}));
+
 //事件监听
 app.io = io;
 io.on('connection', function (socket) {
