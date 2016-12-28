@@ -20,15 +20,16 @@ exports.authUser = function (req, res, next) {
         req.session.user = new UserModel(mockUser);
         return next();
     }
+    //如果是其他的静态资源的请求，这里就不再生成user这个信息了.
     if (req.session.user) {
         UserNotify.getNoReadNotifyCountByUserId(req.session.user._id,'user',function(err,count){
             req.session.user.msg_count = count;
             req.session.logined = true;
             return next();
         })
-
     } else {
         //第一次登录的时候,根据cookie生成session.
+        //如果我清除了cookie,它是无法通过cookie生成session的.
         var auth_token = req.signedCookies[settings.auth_cookie_name];
         if (!auth_token) {
             return next();

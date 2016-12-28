@@ -12,6 +12,8 @@ var fs = require('fs');
 
 var moment = require('moment');
 var partials = require('express-partials');
+//系统功能支持
+var system = require('./routes/system');
 //站点的配置
 var settings = require('./models/db/settings');
 //路由的加载
@@ -92,6 +94,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 //登录注册的路由
 app.use('/users', users);
+//系统需要的功能
+app.use('/system',system);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

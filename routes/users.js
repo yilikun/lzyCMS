@@ -123,7 +123,6 @@ var returnUserRouter = function(io){
         }else{
             //成功之后
             User.findOne({email:email,password:newPsd},function(err,user){
-                console.log(user);
                 if(user){
                     //将cookie存入缓存
                     filter.gen_session(user,res);
@@ -133,6 +132,51 @@ var returnUserRouter = function(io){
                 }
             })
         }
+    })
+    //用户退出
+    router.get('/logout',function(req,res){
+        req.session.destroy();
+        res.clearCookie(settings.auth_cookie_name);
+        res.end('success');
+    })
+    //用户中心
+    router.get('/userCenter',function(req,res){
+        if(isLogined(req)){
+            res.render('web/userCenter',{
+                title:'用户中心',
+                logined:req.session.logined,
+                userInfo:req.session.user
+            })
+        }else{
+            res.render('web/userLogin',{
+                title:'用户登录',
+                logined:req.session.logined,
+                userInfo:req.session.user
+            })
+        }
+    })
+    //通过ID查找指定的注册用户信息
+    router.get('/userInfo',function(req,res,next){
+        var params = url.parse(req.url,true);
+        var currentId = params.query.uid;
+        if(shortid.isValid(currentId)){
+            User.findOne({_id:currentId},function(err,result){
+                if(err){
+                    console.log(err);
+                }else{
+                    if(result && result.password){
+                        //console.log(result);
+                        var decipher = crypto.createDecipher("bf",settings.encrypt_key);
+                        var oldPsd = "";
+                        oldPsd += decipher.update(result.password,"hex","utf8");
+                        oldPsd += decipher.final("utf8");
+                        result.password = oldPsd;
+                    }
+                    return res.json(result);
+                }
+            })
+        }
+
     })
     return router;
 }

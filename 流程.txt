@@ -169,6 +169,20 @@ npm install nodemailer --save 发送邮件
 ② 生成cookie
 ③ 通过cookie生成session.
 
+头像上传
+
+uploadify 目前只负责了在浏览器中打开文件夹，选中好自己的文件，显示文件的进度
+提示你上传成功仅此而已，还是要通过uploader这个接口来实现真正的文件上传.
+天生有一个404的bug，无法修复，暂时不管了.
+
+可以将/system/upload理由里面的操作全部删除观察整个头像上传的结果.
+
+后端的负责文件上传的插件是formidable，负责压缩的是gm
+
+
+
+
+
 
 
 

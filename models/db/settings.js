@@ -3,6 +3,7 @@
  */
 module.exports = {
     debug:true,
+    imgZip : true, // 上传图片是否压缩(如果为false则本地不需要安装gm)
     session_secret:'lzyCMS_secret',
     auth_cookie_name: 'lzyCMS',
     encrypt_key:'lzy',
