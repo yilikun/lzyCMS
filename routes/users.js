@@ -176,7 +176,47 @@ var returnUserRouter = function(io){
                 }
             })
         }
-
+    })
+    //修改用户的信息
+    router.post('/userInfo/modify',function(req,res,next){
+        var errors ;
+        var email = req.body.email;
+        var password = req.body.password;
+        var userName = req.body.userName;
+        var name = req.body.name;
+        var city = req.body.city;
+        var company = req.body.company;
+        var qq = req.body.qq;
+        var phoneNum = req.body.phoneNum;
+        //数据验证
+        if(!validator.matches(userName,/^[a-zA-Z][a-zA-Z0-9_]{4,11}$/)){
+            errors = "用户名5-12个英文字符";
+        }
+        if(name && !validator.matches(name,/[\u4e00-\u9fa5]/)){
+            errors = "姓名格式不正确";
+        }
+        if(!validator.isEmail(email)){
+            errors = "请填写正确的邮箱地址";
+        }
+        if(city && !validator.isLength(city,3,16)){
+            errors = "请填写正确的城市名称";
+        }
+        if(company && !validator.isLength(company,3,16)){
+            errors = "请填写正确的学校中文名称";
+        }
+        if(qq && !validator.matches(qq,/^[1-9][0-9]{4,9}$/)){
+            errors = "请填写正确的QQ号码";
+        }
+        if(phoneNum && !validator.matches(phoneNum,/^1[3|4|5|8][0-9]\d{4,8}$/)){
+            errors = "请填写正确的手机号码";
+        }
+        if(errors){
+            res.end(errors);
+        }else{
+            var newPsd = DBSet.encrypt(password,settings.encrypt_key);
+            req.body.password = newPsd;
+            DBSet.updateOneByID(User,req, res,"modify regUser");
+        }
     })
     return router;
 }

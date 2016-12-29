@@ -24,7 +24,7 @@ var DbSet = {
     del:function(obj,req,res,logMsg){
         var params  = url.parse(req.url,true);
         var targetId = params.query.uid;
-        if(shortid.isVaild(targetId)){
+        if(shortid.isValid(targetId)){
             obj.remove({_id:targetId},function(err,result){
                 if(err){
                     res.end(err);
@@ -52,7 +52,7 @@ var DbSet = {
     findOne:function(obj,req,res,logMsg){
         var params = url.parse(req.url,true);
         var targetId = params.query.uid;
-        if(shortid.isVaild(targetId)){
+        if(shortid.isValid(targetId)){
             obj.findOne({_id:targetId},function(err,result){
                 if(err){
                     res.next(err);
@@ -67,7 +67,7 @@ var DbSet = {
     updateOneByID:function(obj,req,res,logMsg){
         var params = url.parse(req.url,true);
         var targetId = params.query.uid;
-        if(shortid.isVaild(targetId)){
+        if(shortid.isValid(targetId)){
             var coditions = {_id:targetId};
             req.body.updateDate = new Date();
             var update = {$set:req.body};
