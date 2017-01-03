@@ -19,6 +19,7 @@ var settings = require('./models/db/settings');
 //路由的加载
 var routes = require('./routes/index');
 var users = require('./routes/users')(io);//用户的登录注册用到了io
+var admin = require('./routes/admin');
 //位置很重要，要放在路由的后边
 var filter = require('./util/filter');
 var app = express();
@@ -96,6 +97,8 @@ app.use('/', routes);
 app.use('/users', users);
 //系统需要的功能
 app.use('/system',system);
+//后台路由
+app.use('/admin',admin);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
