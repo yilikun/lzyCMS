@@ -23,7 +23,7 @@ var UserNotifySchema = new Schema({
 UserNotifySchema.index({date: -1});
 
 UserNotifySchema.statics = {
-
+    //给所有的系统用户添加消息.
     addNotifyByUsers : function(res,users,notify){
         if(users.length > 0){
             for(var i=0;i<users.length;i++){

@@ -139,7 +139,7 @@ npm install nodemailer --save 发送邮件
 
 3、新建util文件，创建公共操作类
             ----- cache.js redis缓存
-            ----- filter.js
+            ----- filters.js
             ----- minme.js  类型规定
             ----- randomWord.js 生成随机数
             ----- redis.js 链接redis

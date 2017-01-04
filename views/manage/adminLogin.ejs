@@ -15,6 +15,67 @@
     <script src="/javascripts/jquery.js"></script>
     <script src="/plugins/bootstrap/js/bootstrap.min.js"></script>
 </head>
-<body>
-
+<body class="login-page" ng-app="adminLogin" ng-controller="login">
+    <div class="login-box">
+        <div class="login-logo">
+            <a href="/"><b>LZY</b>CMS</a>
+        </div>
+        <div class="login-box-body">
+            <p class="login-box-msg">系统管理员登录</p>
+            <div class="alert alert-danger hide " role="alert" id="errorInfo"><i class="icon-warning-sign"></i>&nbsp;用户名或密码不匹配</div>
+            <form name="loginForm" ng-submit="processLogForm(loginForm.$valid)" novalidate>
+                <div class="form-group has-feedback">
+                    <input type="text" class="form-control" ng-model="logFormData.userName" placeholder="请输入用户名"/>
+                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                </div>
+                <div class="form-group has-feedback">
+                    <input type="password" class="form-control" ng-model="logFormData.password" placeholder="请输入密码"/>
+                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-6" style="margin-left: 0;padding-left: 0;">
+                        <input type="text" class="form-control" name="vnum" ng-model="logFormData.vnum" placeholder="请输入验证码" required>
+                    </div>
+                    <span> <img id="vcode" src="/admin/vnum?<%=Date.parse(new Date())%>" /></span>
+                </div>
+                <div class="row">
+                    <div class="col-xs-8">
+                        <div class="checkbox icheck hide">
+                            <label>
+                                <input type="checkbox"> Remember Me
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-xs-4">
+                        <button type="submit" class="btn btn-primary btn-block btn-flat" ng-disabled="loginForm.$invalid">登录</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 </body>
+<script>
+    angular.module('adminLogin',[])
+            .controller('login',function($scope,$http){
+                $scope.processLogForm = function(isValid){
+                    if(isValid){
+                        //提交系统用户的登录
+                        $http({
+                            method:'POST',
+                            url:'/admin/doLogin',
+                            data: $.param($scope.logFormData),
+                            headers:{'Content-Type':'application/x-www-form-urlencoded'}
+                        }).success(function(data){
+                            if(data === 'success'){
+                                window.location = '/admin/manage'
+                            }else{
+                                $("#errorInfo").removeClass('hide').text(data);
+                                var newParams = Math.round(Math.random() * 100) + '<%=Date.parse(new Date())%>';
+                                $('#vcode').attr('src','/admin/vnum?'+newParams);
+                            }
+                        })
+                    }
+                }
+
+            })
+</script>
