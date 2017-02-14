@@ -49,7 +49,7 @@ app.use(session({
 }));
 app.use(filter.authUser);
 //存储本地信息
-/*app.use(function(req, res, next){
+app.use(function(req, res, next){
 //    针对注册会员
     res.locals.logined = req.session.logined;
     res.locals.userInfo = req.session.user;
@@ -60,7 +60,7 @@ app.use(filter.authUser);
 //    指定站点域名
     res.locals.myDomain = req.headers.host;
     next();
-});*/
+});
 
 //事件监听
 app.io = io;

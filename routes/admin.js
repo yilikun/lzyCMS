@@ -105,9 +105,86 @@ router.post('/doLogin',function(req,res){
 router.get('/manage',function(req,res){
     res.render('manage/main',{
         title:'后台首页',
-        layout:'manage/public/adminTemp'
+        layout:'manage/public/adminTemp',
+        bigCategory:'sysTemManage',
+        currentLink:req.originalUrl
     });
 })
+//用户组
+router.get('/manage/adminGroupList',function(req,res){
+    res.render('manage/adminGroupList',{
+        title:'系统用户组管理',
+        layout:'manage/public/adminTemp',
+        bigCategory:'sysTemManage_uGroup',
+        currentLink:req.originalUrl
+    })
+})
+//用户
+router.get('/manage/adminUsersList',function(req,res){
+    res.render('manage/adminUsersList',{
+        title:'系统用户管理',
+        layout:'manage/public/adminTemp',
+        bigCategory:'sysTemManage_user',
+        currentLink:req.originalUrl
+    })
+})
+//文章内容
+router.get('/manage/contentList',function(req,res){
+    res.render('manage/contentList',{
+        title:'文章内容管理',
+        layout:'manage/public/adminTemp',
+        bigCategory:'contentManage_content',
+        currentLink:req.originalUrl
+    })
+})
+//文章分类
+router.get('/manage/contentCategorys',function(req,res){
+    res.render('manage/contentCategorys',{
+        title:'文章分类管理',
+        layout:'manage/public/adminTemp',
+        bigCategory:'contentManage_cateGory',
+        currentLink:req.originalUrl
+    })
+})
+//文章的标签
+router.get('/manage/contentTags',function(req,res){
+    res.render('manage/contentTags',{
+        title:'文章标签管理',
+        layout:'manage/public/adminTemp',
+        bigCategory:'contentManage_tag',
+        currentLink:req.originalUrl
+    })
+})
+//文章的留言
+router.get('/manage/messageList',function(req,res){
+    res.render('manage/messageList',{
+        title:'文章留言管理',
+        layout:'manage/public/adminTemp',
+        bigCategory:'contentManage_msg',
+        currentLink:req.originalUrl
+    })
+})
+//系统消息列表
+router.get('/manage/sysTemBackStageNotice',function(req,res){
+    res.render('manage/systemNotice',{
+        title:'系统消息',
+        layout:'manage/public/adminTemp',
+        bigCategory:'contentManage_notice',
+        currentLink:req.originalUrl
+    })
+})
+//注册用户的管理
+router.get('/manage/regUsersList',function(req,res){
+    res.render('manage/regUsersList',{
+        title:'注册用户管理',
+        layout:'manage/public/adminTemp',
+        bigCategory:'userManage_user',
+        currentLink:req.originalUrl
+    })
+})
+//-------------------------后台模块访问入口结束----------------------------
+
+
 
 
 

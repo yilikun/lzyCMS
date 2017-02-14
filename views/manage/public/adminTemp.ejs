@@ -5,9 +5,9 @@
     <title><%= title %></title>
     <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
     <link rel="stylesheet" type="text/css" href="/plugins/bootstrap/css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="/plugins/Font-Awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/plugins/font-awesome2/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="/plugins/AdminLTE/dist/css/AdminLTE.css">
-    <link rel="stylesheet" type="text/css" href="/plugins/AdminLTE/dist/css/skins/skin-green.css">
+    <link rel="stylesheet" type="text/css" href="/plugins/AdminLTE/dist/css/skins/skin-blue.css">
     <link rel="stylesheet" type="text/css" href="/plugins/AdminLTE/plugins/datatables/dataTables.bootstrap.css">
     <!--自己的CSS文件-->
     <link rel="stylesheet" type="text/css" href="/stylesheets/admin.css">
@@ -15,18 +15,83 @@
     <script src="/javascripts/html5shiv.js"></script>
     <script src="/javascripts/respond.min.js"></script>
     <![endif]-->
-    <script src="/javascripts/angular.js"></script>
     <script src="/javascripts/jquery.js"></script>
+    <script src="/javascripts/angular.js"></script>
     <script src="/plugins/bootstrap/js/bootstrap.min.js"></script>
     <!--自己的JS文件-->
     <script src="/javascripts/admin.js"></script>
     <!--上传下载-->
     <link rel="stylesheet" type="text/css" href="/plugins/uploadify/uploadify.css">
     <script src="/plugins/uploadify/jquery.uploadify.js"></script>
-
-
+    <!--ztree-->
+    <link rel="stylesheet" href="/plugins/zTree/css/zTreeStyle/zTreeStyle.css">
+    <script src="/plugins/zTree/js/jquery.ztree.all.js"></script>
+    <!--百度编辑器-->
+    <script src="/plugins/ueditor/ueditor.config.js"></script>
+    <script src="/plugins/ueditor/ueditor.all.js"></script>
 </head>
-<body>
+<body class="skin-blue" ng-app="adminApp">
+    <div class="wrapper">
+        <!--头部-->
+        <header class="main-header">
+            <!--Logo-->
+            <a href="/admin/manage" class="logo"><b>lzy</b>CMS</a>
+            <!--导航-->
+            <nav class="navbar navbar-static-top" role="navigation">
+                <!--左边的切换按钮-->
+                <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                </a>
+            </nav>
+        </header>
+        <!--左边的导航-->
+        <aside class="main-sidebar">
+            <section class="sidebar">
+                <ul class="sidebar-menu">
+                    <li class="header">主菜单</li>
+                    <input type="hidden" id="currentCate" value="<%= bigCategory %>"/>
+                    <li class="treeview active" cid="sysTemMange">
+                        <a href="#"><span>系统设置</span> <i class="fa fa-angle-left pull-right"></i></a>
+                        <ul class="treeview-menu">
+                            <li cid="sysTemManage_user"><a href="/admin/manage/adminUsersList"><i class="fa fa-user"></i> 系统用户管理</a></li>
+                            <li cid="sysTemManage_uGroup"><a href="/admin/manage/adminGroupList"><i class="fa fa-group"></i> 用户组设定</a></li>
+                        </ul>
+                    </li>
+                    <li class="treeview" cid="contentMange">
+                        <a href="#"><span>文章管理</span><i class="fa fa-angle-left pull-right"></i></a>
+                        <ul class="treeview-menu">
+                            <li cid="contentManage_content"><a href="/admin/manage/contentList"><i class="fa fa-file-text-o"></i> 文章内容管理</a></li>
+                            <li cid="contentManage_cateGory"><a href="/admin/manage/contentCategorys"><i class="fa fa-clipboard"></i> 文章分类管理</a></li>
+                            <li cid="contentManage_tag"><a href="/admin/manage/contentTags"><i class="fa fa-tags"></i>文章标签管理</a></li>
+                            <li cid="contentManage_msg"><a href="/admin/manage/messageList"><i class="fa fa-comments"></i> 留言管理</a></li>
+                            <li cid="contentManage_notice"><a href="/admin/manage/sysTemBackStageNotice"><i class="fa fa-bell-o"></i> 系统消息</a></li>
+                        </ul>
+                    </li>
+                    <li class="treeview" cid="userManage">
+                        <a href="#"><span>会员管理</span> <i class="fa fa-angle-left pull-right"></i></a>
+                        <ul class="treeview-menu">
+                            <li cid="userManage_user"><a href="/admin/manage/regUsersList"><i class="fa fa-users"></i> 注册会员列表</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+        </aside>
+        <!--右边部分-->
+        <div class="content-wrapper">
+            <section class="content-header">
+                <h1>lzyCMS管理系统</h1>
+                <ol class="breadcrumb">
+                    <li class="active"><a href="#" target="_blank"><i class="fa fa-home"></i> 前台首页</a></li>
+                </ol>
+            </section>
+            <section class="content">
+                <%- body %>
+            </section>
+        </div>
+        <footer class="main-footer">
+            自豪的采用&nbsp;LzyCMS  &nbsp;Copyright (c) 2016 &nbsp; All Rights Reserved &nbsp;&nbsp;联系作者：<a href="#" target="_blank">我的QQ</a>
+        </footer>
+    </div>
 </body>
 </html>
 <script src="/plugins/AdminLTE/dist/js/app.js"></script>
@@ -34,6 +99,12 @@
 <script src="/javascripts/directives.js"></script>
 <script src="/javascripts/filters.js"></script>
 <script>
-    //我自己的JS代码
-
+    $(function(){
+        var curerntCate = $("#currentCate").val();
+        var sv = $('li[cid="'+curerntCate+'"]');
+        $('.treeview-menu').removeClass('open-menu');
+        $(".sidebar-menu").find("li").removeClass('active');
+        sv.parents('li').addClass('active');
+        sv.addClass('active').parents('.treeview-menu').addClass('open-menu');
+    })
 </script>
