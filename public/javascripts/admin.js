@@ -2,33 +2,7 @@
  * Created by hama on 2017/1/4.
  */
 
-//后台公共的JS文件
-//angularJs https Post方法封装
-function angularHttpPost($http,isValid,url,formData,callBack){
-    if(isValid){
-        $http({
-            method  : 'POST',
-            url     : url,
-            data    : $.param(formData),  // pass in data as strings
-            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
-        })
-            .success(function(data) {
-                //  关闭所有模态窗口
-                $('.modal').each(function(i){
-                    $(this).modal("hide");
-                });
 
-                if(data == 'success'){
-                    callBack(data);
-                }else{
-                    layer.msg(data);
-                }
-            });
-    }
-    else{
-        layer.msg('参数效验不成功');
-    }
-}
 
 //初始化普通里列表的分页
 function initPagination($scope,$http){
@@ -227,5 +201,32 @@ function getTargetPostUrl($scope,bigCategory){
         url = "/admin/manage/"+bigCategory+"/modify?uid="+$scope.targetID;
     }
     return url;
+}
+//初始化删除
+function initDelOption($scope,$http,info){
+    $scope.delOneItem = function(id){
+        initCheckIfDo($scope,id,info,function(currentID){
+            angularHttpGet($http,"/admin/manage/"+$('#currentCate').val()+"/del?uid="+currentID,function(){
+                initPagination($scope,$http);
+            });
+        });
+    }
+
+}
+//提示用户操作窗口
+function initCheckIfDo($scope,targetId,msg,callBack){
+    $('#checkIfDo').on('show.bs.modal', function (event) {
+        if(targetId){
+            $scope.targetID = targetId;
+        }
+        $(this).find('.modal-msg').text(msg);
+    }).on('hide.bs.modal', function (event) {
+        $scope.targetID ="";
+    });
+    $('#checkIfDo').modal('show');
+    //确认执行删除
+    $scope.confirmDo = function (currentID) {
+        callBack(currentID);
+    };
 }
 

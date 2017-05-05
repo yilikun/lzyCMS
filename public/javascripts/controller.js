@@ -10,7 +10,7 @@ lzyApp.factory('pageData',function(){
 })
 lzyApp.factory('getItemService',['$http',function($http){
     var getItemRequest = function(currentPage,targetId){
-        var requestPath = '/admin/manage' + currentPage + '/item?uid=' + targetId;
+        var requestPath = '/admin/manage/' + currentPage + '/item?uid=' + targetId;
         return $http.get(requestPath);
     }
     return {
@@ -30,7 +30,7 @@ lzyApp.controller('adminGroup',['$scope','$http','pageData','getItemService',fun
     //获取基础的权限列表
     initPowerList($scope);
     //删除用户
-    //initDelOption($scope,$http,'您确认要删除选中的用户组吗？');
+    initDelOption($scope,$http,'您确认要删除选中的用户组吗');
     //因为编辑和新建用了同一个模态框，所以这里要进行下判断
     $('#addAdminGroup').on('show.bs.modal',function(event){
         var obj = $(event.relatedTarget);
@@ -40,7 +40,24 @@ lzyApp.controller('adminGroup',['$scope','$http','pageData','getItemService',fun
         if(editId){
             //不为空的情况下是编辑
             modalTitle.text('编辑用户组');
-
+            getItemService.itemInfo(pageData.bigCategory,editId).success(function(result){
+                $scope.formData.name = result.name;
+                if(result.power){
+                    $scope.formData.power = JSON.parse(result.power);
+                    // 回选checkbox
+                    var powerTreeObj = eval(result.power);
+                    for(var i=0;i<powerTreeObj.length;i++){
+                        var checkedId = powerTreeObj[i].split(':')[0];
+                        var treeObj = $.fn.zTree.getZTreeObj("groupPowerTree");
+                        var node = treeObj.getNodeByParam("id", checkedId, null);
+                        if(node){
+                            node.checked = true;
+                            treeObj.updateNode(node);
+                        }
+                    }
+                }
+                $scope.targetID = editId;
+            })
         }else{
             //新增
             modalTitle.text('添加新用户组');

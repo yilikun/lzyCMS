@@ -182,9 +182,9 @@ router.get('/manage/regUsersList',function(req,res){
         currentLink:req.originalUrl
     })
 })
-//-------------------------后台模块访问入口结束----------------------------
+//-------------------------后台模块访问入口结束-------------------------------------
 
-//-------------------------对象列表查询开始(带分页)------------------------
+//-------------------------通用查询(带分页)--------------------
 
 router.get('/manage/getDocumentList/:defaultUrl',function(req,res){
     var targetObj = adminFunc.getTargetObj(req.params.defaultUrl);
@@ -192,7 +192,7 @@ router.get('/manage/getDocumentList/:defaultUrl',function(req,res){
     DbSet.pagination(targetObj,req,res);
 })
 
-//-------------------------对象通用新增开始------------------------
+//-------------------------通用新增开始------------------------
 router.post('/manage/:defaultUrl/addOne',function(req,res){
     var currentPage = req.params.defaultUrl;
     var targetObj = adminFunc.getTargetObj(currentPage);
@@ -212,4 +212,77 @@ router.post('/manage/:defaultUrl/addOne',function(req,res){
     }
 })
 
+//-------------------------单个查询----------------------------
+router.get('/manage/:defaultUrl/item',function(req,res){
+    var currentPage = req.params.defaultUrl;
+    var targetObj = adminFunc.getTargetObj(currentPage);
+    var params = url.parse(req.url,true);
+    var targetId = params.query.uid;
+    if(targetObj == AdminUser){
+        AdminUser.getOneItem(res,targetId,function(user){
+            return res.json(user);
+        })
+    }else{
+        DbSet.findOne(targetObj,req,res,'find one obj success');
+    }
+})
+//-------------------------单个更新----------------------------
+router.post('/manage/:defaultUrl/modify',function(req,res){
+    var currentPage = req.params.defaultUrl;
+    var targetObj = adminFunc.getTargetObj(currentPage);
+    var params = url.parse(req.url,true);
+    if(targetObj == AdminUser || targetObj == User){
+        //如果更新的是管理员用户或者是注册用户
+        req.body.password = DbSet.encrypt(req.body.password);
+    }else if(targetObj == AdminGroup){
+        //目前session里面还没有东西呢.
+        /*console.log(req.session);
+        if(params.query.uid == req.session.adminUserInfo.group._id){
+            req.session.adminPower = req.body.power;
+        }*/
+    }else if(targetObj == Category){
+        Category.updateCategoryTemps(req,res,params.query.uid);
+    }
+    DbSet.updateOneByID(targetObj,req,res,'update one obj success')
+})
+//-------------------------单个删除----------------------------
+router.get('/manage/:defaultUrl/del',function(req,res){
+    var currentPage = req.params.defaultUrl;
+    var params = url.parse(req.url,true);
+    var targetObj = adminFunc.getTargetObj(currentPage);
+    if(targetObj == Message){
+        //removeMessage(req,res)
+    }else if(targetObj == Notify){
+        adminFunc.delNotifiesById(req,res,params.query.uid,function(){
+            res.end("success");
+        });
+    }else if(targetObj == UserNotify){
+        //管理员删除系统消息
+    }else if(targetObj == AdminGroup){
+        //在删除用户组的时候，不能删除当前登录用户所拥有的用户组.
+       /* if(params.query.uid == req.session.adminUserInfo.group._id){
+            res.end('当前用户拥有的权限信息不能删除！');
+        }else{
+            DbSet.del(targetObj,req,res,"del one obj success");
+        }*/
+        DbSet.del(targetObj,req,res,"del one obj success");
+    }else if(targetObj == AdminUser){
+        if(params.query.uid == req.session.adminUserInfo._id){
+            res.end('不能删除当前登录的管理员！');
+        }else{
+            Message.find({'adminAuthor' : params.query.uid},function(err,docs){
+                if(err){
+                    res.end(err)
+                }
+                if(docs && docs.length>0){
+                    res.end('请清理您的评论后再删除该用户！');
+                }else{
+                    DbSet.del(targetObj,req,res,"del one obj success");
+                }
+            });
+        }
+    }else{
+        DbSet.del(targetObj,req,res,"del one obj success");
+    }
+});
 module.exports = router;
