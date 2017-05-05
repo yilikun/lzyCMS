@@ -184,7 +184,13 @@ router.get('/manage/regUsersList',function(req,res){
 })
 //-------------------------后台模块访问入口结束----------------------------
 
+//-------------------------对象列表查询开始(带分页)------------------------
 
+router.get('/manage/getDocumentList/:defaultUrl',function(req,res){
+    var targetObj = adminFunc.getTargetObj(req.params.defaultUrl);
+    //根据当前的栏目以及分页信息参数查询所有的内容并返回
+    DbSet.pagination(targetObj,req,res);
+})
 
 
 

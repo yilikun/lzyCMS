@@ -13,7 +13,26 @@ var shortid = require('shortid');
 var mongoose = require('mongoose');
 var settings = require('./db/settings');
 //引入mongoose配置文件
-//感觉这里不太需要
+//管理员
+var AdminUser = require('./AdminUser');
+//用户组
+var AdminGroup = require('./AdminGroup');
+//文章
+var Article = require('./Article');
+//分类
+var Category = require('./Category');
+//标签
+var Tag = require('./Tags');
+//留言
+var Message = require('./Message');
+//前台用户
+var User = require('./User');
+//文件
+var Files = require('./Files');
+//消息详情
+var Notify = require('./Notify');
+//消息
+var UserNotify = require('./UserNotify');
 //链接数据库开始
 var db = mongoose.connect(settings.URL);
 //mongoose.connect('mongodb://localhost:27017')
@@ -95,7 +114,7 @@ var DbSet = {
         })
     },
     //分页
-    pagination:function(obj,req,res,conditions){
+    pagination:function(obj,req,res){
         var params = url.parse(req.url,true);
         //从第几条开始, 当前的页数-1 * 每页多少条 + 1
         var startNum = (params.query.currentPage - 1)*params.query.limit + 1;
@@ -104,18 +123,18 @@ var DbSet = {
         //每页的条数
         var limit = Number(params.query.limit);
         var pageInfo;
-        //根据条件查询下
-        var query;
-        if(conditions && conditions.length > 1){
-            query = obj.find().or(conditions)
-        }else if(conditions){
-            query = obj.find(conditions);
-        }else{
-            query = obj.find({})
+        //这里直接根据obj的参数来查，没有所谓的条件
+        var query = obj.find({}).sort({'date':-1});
+        //加上关联查询
+        if(obj === Message){
+            query.populate('author').populate('replyAuthor').populate('adminAuthor');
+        }else if(obj === AdminUser){
+            query.populate('group');
+        }else if(obj === UserNotify){
+            query.populate('user').populate('notify');
+        }else if(obj === Article){
+            query.populate('category').populate('author');
         }
-        query.sort({'date':-1});
-
-        //先省略
         query.exec(function(err,docs){
             if(err){
                 console.log(err);

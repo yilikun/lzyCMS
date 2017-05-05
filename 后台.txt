@@ -1,4 +1,4 @@
-搭建后台的流程:
+﻿搭建后台的流程:
 
 1.路由中添加后台的admin.js文件
 
@@ -27,7 +27,22 @@
 
         这里要说明一下，注册是推送给所有的管理员，但是留言只是会推送个发布文章的那个管理员.
 
-5.增加首页的访问路由/admin/manage
+
+
+总结:目前的网站的后台结构
+    主要的界面  /admin/manage   名称sysTemManage
+    系统设置
+            后台用户管理 /admin/manage/adminUserList 名称 sysTemManage_user 对应的表名: adminusers
+            后台用户组管理 /admin/manage/adminGroupList 名称 sysTemManage_uGroup 对应的表名:admingroups
+    文章管理
+            文章内容管理 /admin/manage/contentList 名称 contentManage_content 对应的表名: articles
+            文章分类管理 /admin/manage/contentCategorys 名称 contentManage_cateGory 对应的表名:categories
+            文章标签管理 /admin/manage/contentTags 名称 contentManage_tag  对应的表名:tags
+            留言管理 /admin/manage/messageList 名称 contentManage_msg  对应表名:messages
+            系统消息 /admin/manage/sysTemBackStageNotice 名称 contentManage_notice 对应的表名: usernotifies
+    会员管理
+            注册会员列表 /admin/manage/regUsersList 名称 userManage_user 对应的表名: users
+
 
 
 

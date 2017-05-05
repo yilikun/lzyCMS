@@ -65,8 +65,31 @@ var adminFunc = {
                 }
             })
 
+    },
+    //通过后台栏目的名称，找到对应要查询的表名
+    getTargetObj :function(currentPage){
+        var targetObj ;
+        if(currentPage === 'sysTemManage_user'){
+            targetObj = AdminUser;
+        }else if(currentPage === 'sysTemManage_uGroup'){
+            targetObj = AdminGroup;
+        }else if(currentPage === 'contentManage_content'){
+            targetObj = Article;
+        }else if(currentPage === 'contentManage_cateGory'){
+            targetObj = Category;
+        }else if(currentPage === 'contentManage_tag'){
+            targetObj = Tag;
+        }else if(currentPage === 'contentManage_msg'){
+            targetObj = Message;
+        }else if(currentPage === 'contentManage_notice'){
+            targetObj = UserNotify;
+        }else if(currentPage === 'userManage_user'){
+            targetObj = User;
+        }else{
+            targetObj = Article;
+        }
+        return targetObj;
     }
-
 }
 
 
