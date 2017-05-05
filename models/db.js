@@ -22,7 +22,7 @@ var Article = require('./Article');
 //分类
 var Category = require('./Category');
 //标签
-var Tag = require('./Tags');
+var Tag = require('./Tag');
 //留言
 var Message = require('./Message');
 //前台用户

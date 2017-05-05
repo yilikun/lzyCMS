@@ -16,7 +16,7 @@ var Article = require('../models/Article');
 //文章分类
 var Category = require('../models/Category');
 //文章标签
-var Tags = require('../models/Tags');
+var Tag = require('../models/Tag');
 //文章留言
 var Message = require('../models/Message');
 //前台用户
@@ -192,7 +192,24 @@ router.get('/manage/getDocumentList/:defaultUrl',function(req,res){
     DbSet.pagination(targetObj,req,res);
 })
 
-
-
+//-------------------------对象通用新增开始------------------------
+router.post('/manage/:defaultUrl/addOne',function(req,res){
+    var currentPage = req.params.defaultUrl;
+    var targetObj = adminFunc.getTargetObj(currentPage);
+    if(targetObj == AdminUser){
+        //addOneAdminUser(req,res);
+    }else if(targetObj == Category){
+        //addOneCategory(req,res);
+    }else if(targetObj == Article){
+        req.body.author = req.session.adminUserInfo._id;
+        DbSet.addOne(targetObj,req,res);
+    }else if(targetObj == Tag){
+        //addOneTag(req,res);
+    }else if(targetObj == Message){
+        //replyMessage(req,res);
+    }else{
+        DbSet.addOne(targetObj,req,res);
+    }
+})
 
 module.exports = router;

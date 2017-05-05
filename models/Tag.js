@@ -16,5 +16,5 @@ var TagsSchema = new Schema({
     date: { type: Date, default: Date.now },
     comments : String
 });
-var Tags = mongoose.model('Tags',TagsSchema);
-module.exports = Tags;
+var Tag = mongoose.model('Tag',TagsSchema);
+module.exports = Tag;
